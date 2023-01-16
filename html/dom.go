@@ -35,11 +35,13 @@ func ExtractClassList(node *html.Node) *[]string {
 
 func InnerText(entryNode *html.Node) string {
 	text := ""
+
 	CbAllByCond(entryNode, func(node *html.Node) bool {
 		return node.Type == html.TextNode
 	}, func(node *html.Node) {
 		text += node.Data
 	})
+	
 	return text
 }
 
@@ -63,11 +65,12 @@ func CbChildren(entryNode *html.Node, Cb func(*html.Node)) {
 	children = GetChildren(entryNode)
 
 	if children == nil {
-		for _, child := range children {
-			Cb(child)
-		}
+		return
 	}
-	return
+	
+	for _, child := range children {
+		Cb(child)
+	}
 }
 
 func CbDrill(entryNode *html.Node, Cb func(*html.Node)) {
@@ -79,6 +82,7 @@ func CbDrill(entryNode *html.Node, Cb func(*html.Node)) {
 			rec(child)
 		}
 	}
+
 	rec(entryNode)
 }
 
